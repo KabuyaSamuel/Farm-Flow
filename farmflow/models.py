@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
-from PIL import Image
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -135,6 +134,7 @@ class Farm(models.Model):
     soil_test = models.ForeignKey(SoilTestResult, on_delete=models.CASCADE)
     water_source = models.ForeignKey(WaterSource, on_delete=models.CASCADE)
     farming_type = models.ForeignKey(FarmingType, on_delete=models.CASCADE)
+    value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
 
     input_used = models.ManyToManyField('InputUsed', through='FarmInputUsed')
 

@@ -80,16 +80,16 @@ class UpdateUserForm(forms.ModelForm):
 class UpdateProfileForm(forms.ModelForm):
     avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
     bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-    gender = forms.CharField(max_length=100,
-                               required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
-    phone_number = forms.IntegerField(validators=[RegexValidator(regex='^[0-9]{10}$')],
-                                 required=True,
-                                 widget=forms.TextInput(attrs={'placeholder': 'Phone Number',
-                                                               'class': 'form-control',
-                                                               }))
+    # gender = forms.CharField(max_length=100,
+    #                            required=True,
+    #                            widget=forms.TextInput(attrs={'class': 'form-control'}))
+    # phone_number = forms.IntegerField(validators=[RegexValidator(regex='^[0-9]{10}$')],
+    #                              required=True,
+    #                              widget=forms.TextInput(attrs={'placeholder': 'Phone Number',
+    #                                                            'class': 'form-control',
+    #                                                            }))
     
     
     class Meta:
         model = Profile
-        fields = ['avatar', 'bio', 'gender', 'phone_number']
+        fields = ['avatar', 'bio']
