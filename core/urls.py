@@ -21,10 +21,13 @@ from farmflow.views import CustomLoginView
 from farmflow.forms import LoginForm
 from django.urls import re_path
 from farmflow.views import ResetPasswordView, ChangePasswordView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('farmflow.urls')),
+
     path('login/', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='users/login.html',
                                            authentication_form=LoginForm), name='login'),
 
@@ -43,4 +46,6 @@ urlpatterns = [
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
 
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
-]
+
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

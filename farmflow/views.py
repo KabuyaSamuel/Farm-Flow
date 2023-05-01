@@ -5,6 +5,9 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChan
 from .forms import RegisterForm, LoginForm
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.decorators import login_required
+from .forms import UpdateUserForm, UpdateProfileForm
+from .models import *
 
 # Create your views here.
 def index(request):
@@ -73,3 +76,25 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'users/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('home')
+
+@login_required
+def profile(request):
+    profile = Profile.objects.all()
+    return render(request, 'users/profile.html', {'profile': profile})
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='users-profile')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
