@@ -17,7 +17,6 @@ class ValueChainChoice(models.Model):
         ("Dairy", "Dairy"),
 
     ]
-
     name = models.CharField(max_length=255, choices=VALUE_CHAIN_CHOICE)
 
 class SoilTestResult(models.Model):
@@ -55,16 +54,10 @@ class WaterSource(models.Model):
         ("Swamp", "Swamp")
     ]
     type = models.CharField(max_length=255, choices=WATER_SOURCE_CHOICES)
-class Farmer(models.Model):
+
+class Profile(models.Model):
     name = models.CharField(max_length=255)
     gender = models.CharField(max_length=255)
     id_number = models.FloatField(max_length=8)
     mobile_number = models.CharField(max_length=13)
     plot_size = models.FloatField()
-    producer_group = models.ForeignKey(ProducerGroup, on_delete=models.CASCADE)
-    value_chain_choice = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
-    farming_type = models.ForeignKey(FarmingType, on_delete=models.CASCADE)
-    water_source = models.ForeignKey(WaterSource, on_delete=models.CASCADE)
-    soil_test_result = models.ForeignKey(SoilTestResult, on_delete=models.CASCADE)
-    inputs_used = models.ForeignKey(InputUsed, on_delete=models.CASCADE)
-    
