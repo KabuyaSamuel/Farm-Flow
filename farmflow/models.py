@@ -18,7 +18,7 @@ class ProducerGroup(models.Model):
     members = models.ManyToManyField(User, related_name='producer_groups')
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.cluster})"
 
 class ValueChainChoice(models.Model):
     VALUE_CHAIN_CHOICE = [
@@ -106,6 +106,7 @@ class Profile(models.Model):
     avatar = CloudinaryField('image', default='https://res.cloudinary.com/fevercode/image/upload/v1654534329/default_n0r7rf.png')
     bio = models.TextField(max_length=500, default='This is my bio')
     name = models.CharField(max_length=255, blank=True)
+    producer_group = models.ForeignKey(ProducerGroup, on_delete=models.SET_NULL, null=True, blank=True)
     gender = models.CharField(max_length=255, choices=GENDER_CHOICES)
     id_number = models.PositiveBigIntegerField(unique=True, blank=True, null=True)
     phone_number = PhoneNumberField(unique=True, null=True, blank=True)
@@ -122,7 +123,8 @@ class Profile(models.Model):
         self.save()
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} ({self.producer_group}) Profile"
+
 
 class Farm(models.Model):
     owner = models.ForeignKey(User, related_name='farmer', on_delete=models.CASCADE)
@@ -143,7 +145,9 @@ class Farm(models.Model):
         return cls.objects.filter(owner__id=user_id)
 
     def __str__(self):
-        return self.owner.get_full_name()
+        crop_names = ', '.join([crop.name for crop in self.crops.all()])
+        return f"{self.owner.get_full_name()}'s farm ({self.value_chain}): {crop_names}"
+
     
 class FarmInputUsed(models.Model):
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
@@ -167,6 +171,7 @@ class CropProductionStage(models.Model):
     harvesting = models.DateField()
     crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
     inputs = models.ManyToManyField(InputUsed, blank=True)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.crop} Production Stage"
+        return f"{self.crop} Production Stage on {self.farm}"
