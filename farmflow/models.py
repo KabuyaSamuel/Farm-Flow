@@ -97,6 +97,27 @@ class WaterSource(models.Model):
     def __str__(self):
         return self.type
 
+class Farm(models.Model):
+    owner = models.ForeignKey(User, related_name='farmer', on_delete=models.CASCADE)
+    location = models.CharField(max_length=55)
+    crops = models.ManyToManyField('Crop', related_name='crops', blank=True)
+    length = models.PositiveIntegerField(default=0)
+    width = models.PositiveIntegerField(default=0)
+    is_leased = models.BooleanField(default=False)
+    soil_test = models.ForeignKey(SoilTestResult, on_delete=models.CASCADE)
+    water_source = models.ForeignKey(WaterSource, on_delete=models.CASCADE)
+    farming_type = models.ForeignKey(FarmingType, on_delete=models.CASCADE)
+    value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
+    input_used = models.ManyToManyField('InputUsed', through='FarmInputUsed')
+
+    @classmethod
+    def my_farms(cls, user_id):
+        return cls.objects.filter(owner__id=user_id)
+
+    def __str__(self):
+        crop_names = ', '.join([crop.name for crop in self.crops.all()])
+        return f"{self.owner.get_full_name()}'s farm ({self.value_chain}): {crop_names}"
+    
 class Profile(models.Model):
     GENDER_CHOICES =[
         ('Male', 'Male'),
@@ -112,6 +133,7 @@ class Profile(models.Model):
     id_number = models.PositiveBigIntegerField(unique=True, blank=True, null=True)
     phone_number = PhoneNumberField(unique=True, null=True, blank=True)
     plot_size = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, default=0)
+    farm = models.ForeignKey(Farm, on_delete=models.CASCADE, null=True)
     
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -125,29 +147,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} ({self.producer_group}) Profile"
-
-
-class Farm(models.Model):
-    owner = models.ForeignKey(User, related_name='farmer', on_delete=models.CASCADE)
-    location = models.CharField(max_length=55)
-    crops = models.ManyToManyField('Crop', related_name='crops', blank=True)
-    length = models.PositiveIntegerField(default=0)
-    width = models.PositiveIntegerField(default=0)
-    is_leased = models.BooleanField(default=False)
-    soil_test = models.ForeignKey(SoilTestResult, on_delete=models.CASCADE)
-    water_source = models.ForeignKey(WaterSource, on_delete=models.CASCADE)
-    farming_type = models.ForeignKey(FarmingType, on_delete=models.CASCADE)
-    value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
-
-    input_used = models.ManyToManyField('InputUsed', through='FarmInputUsed')
-
-    @classmethod
-    def my_farms(cls, user_id):
-        return cls.objects.filter(owner__id=user_id)
-
-    def __str__(self):
-        crop_names = ', '.join([crop.name for crop in self.crops.all()])
-        return f"{self.owner.get_full_name()}'s farm ({self.value_chain}): {crop_names}"
 
 class Crop(models.Model):
     name = models.CharField(max_length=55,)

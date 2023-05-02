@@ -35,7 +35,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = [
-    'farmflow',
+    'farmflow.apps.FarmflowConfig',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',

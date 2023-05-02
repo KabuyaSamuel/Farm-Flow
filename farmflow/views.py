@@ -11,7 +11,14 @@ from .models import *
 
 # Create your views here.
 def index(request):
-    return render(request, 'users/index.html')
+    crops = Crop.objects.all()
+    farms = Farm.objects.prefetch_related('crops').all()
+    context = {'crops': crops, 'farms': farms}
+    return render(request, 'dashboard/starter.html', context)
+
+
+def dashboard(request):
+    return render(request, 'dashboard/dashboard.html')
 
 class RegisterView(View):
     form_class = RegisterForm
