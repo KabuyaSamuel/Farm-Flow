@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from phonenumber_field.modelfields import PhoneNumberField
+import uuid
 
 
 # Create your models here.
@@ -148,20 +149,22 @@ class Farm(models.Model):
         crop_names = ', '.join([crop.name for crop in self.crops.all()])
         return f"{self.owner.get_full_name()}'s farm ({self.value_chain}): {crop_names}"
 
+class Crop(models.Model):
+    name = models.CharField(max_length=55,)
+    description = models.CharField(max_length=255)
+    value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} ({self.value_chain})"
     
 class FarmInputUsed(models.Model):
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
     input_used = models.ForeignKey(InputUsed, on_delete=models.CASCADE)
     quantity_used = models.PositiveSmallIntegerField(blank=True, null=True)
+    crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.farm} used {self.quantity_used} {self.input_used.amount} of {self.input_used.name}"
-class Crop(models.Model):
-    name = models.CharField(max_length=55,)
-    description = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.name
 
 class CropProductionStage(models.Model):
     planted_date = models.DateField(auto_now_add=True)
@@ -174,4 +177,47 @@ class CropProductionStage(models.Model):
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.crop} Production Stage on {self.farm}"
+        return f"Production Stage on {self.farm}"
+    
+class Produce(models.Model):
+    GRADE_CHOICES = [
+    ('Grade A', 'Grade A'),
+    ('Grade B', 'Grade B'),
+    ('Grade C', 'Grade C'),
+    ]
+    farmer = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    type = models.CharField(max_length=255)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    grade = models.CharField(max_length=255, choices=GRADE_CHOICES)
+    production_date = models.DateField()
+    value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
+
+    # Add a field to track the status of the produce (e.g., harvested, in transit, at the market, sold).
+    STATUS_CHOICES = [
+        ('Harvested', 'Harvested'),
+        ('In Transit', 'In Transit'),
+        ('At the Market', 'At the Market'),
+        ('Sold', 'Sold'),
+    ]
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES)
+
+    # Add a field to track the location of the produce, such as the name of the market or the name of the buyer.
+    location = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.type} - {self.quantity}kg ({self.farmer.user.username})'
+    
+class Tag(models.Model):
+    tag_id = models.CharField(max_length=36, default=str(uuid.uuid4()), unique=True, editable=False)
+    farmer = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    produce = models.ForeignKey(Produce, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, default='Harvested')
+
+    def save(self, *args, **kwargs):
+        # Set the default value of status to the value of status in the related Produce instance
+        if self.produce:
+            self.status = self.produce.status
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Tag #{self.tag_id} ({self.produce.type} from {self.farmer.user.username})"
