@@ -8,6 +8,4 @@ urlpatterns = [
     path('edit/profile/', edit_profile, name='edit-profile'),
     path('layout-static/', Static, name='static'),
     path('layout-sidenav-light/', LigthNav, name='light-nav'),
-    path('layout-static/layout-sidenav-light', Static, name='static'),
-    path('layout-sidenav-light/layout-sidenav-light', LigthNav, name='light-nav'),
 ]
