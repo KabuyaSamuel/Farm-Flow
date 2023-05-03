@@ -180,7 +180,7 @@ class CropProductionStage(models.Model):
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Production Stage on {self.farm}"
+        return f"{self.crop} production stage at {self.farm} ({self.planted_date} - {self.harvested_date})"
     
 class Produce(models.Model):
     GRADE_CHOICES = [

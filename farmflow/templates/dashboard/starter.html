@@ -7,6 +7,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html lang="en">
 <head>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Farm Share Kenya | For fresh and safe farm produce</title>
@@ -280,8 +292,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   {% endif %}
                   </p>
 
-                  <a href="#" class="card-link">Production Stage</a>
-                  <a href="#" class="card-link">Another link</a>
+                  <a href="#" class="card-link">Add Crop</a>
+                  <a href="#" class="card-link">Value Chains</a>
                 </div>
               </div>
 
@@ -336,8 +348,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </p>
 
 
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
+                  <a href="#" class="card-link">More Farm Details</a>
+                  <a href="#" class="card-link">Farmer's Profile</a>
                 </div>
               </div><!-- /.card -->
             </div>
@@ -345,23 +357,42 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="col-lg-6">
               <div class="card">
                 <div class="card-header">
-                  <h5 class="m-0">Production Stages</h5>
+                  <h5 class="m-0">Crop Production Stages</h5>
                 </div>
                 <div class="card-body">
-                  <h6 class="card-title">Crop Production Stages</h6>
+                  <!-- <h6 class="card-title">Crop Production Stages</h6> -->
 
-                  <p class="card-text">{% for production_stage in production_stages %}
-                      <h3>{{ production_stage.crop }}</h3>
-                      <p>Planted date: {{ production_stage.planted_date }}</p>
-                      <p>Harvested date: {{ production_stage.harvested_date }}</p>
-                      <p>Ploughing date: {{ production_stage.ploughing }}</p>
-                      <p>Weeding date: {{ production_stage.weeding }}</p>
-                      <p>Harvesting date: {{ production_stage.harvesting }}</p>
-                      <p>Inputs used: {{ production_stage.inputs.all|join:", " }}</p>
-                      <p>Farm: {{ production_stage.farm }}</p>
-                  {% endfor %}
+                  <table>
+                  <thead>
+                    <tr>
+                      <th>Crop</th>
+                      <th>Planted</th>
+                      <th>Harvested</th>
+                      <th>Ploughing</th>
+                      <th>Weeding</th>
+                      <!-- <th>Harvesting date</th> -->
+                      <th>Inputs used</th>
+                      <th>Farm</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for production_stage in production_stages %}
+                      <tr>
+                        <td>{{ production_stage.crop }}</td>
+                        <td>{{ production_stage.planted_date }}</td>
+                        <td>{{ production_stage.harvested_date }}</td>
+                        <td>{{ production_stage.ploughing }}</td>
+                        <td>{{ production_stage.weeding }}</td>
+                        <!-- <td>{{ production_stage.harvesting }}</td> -->
+                        <td>{{ production_stage.inputs.all|join:", " }}</td>
+                        <td>{{ production_stage.farm }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
                   </p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <a href="#" class="btn btn-primary">Add Production Stage</a>
                 </div>
               </div>
 
@@ -387,7 +418,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <p>No tags associated with this produce.</p>
                       {% endfor %}
                     {% endfor %}
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <a href="#" class="btn btn-primary">Add Produce</a>
                 </div>
               </div>
             </div>
