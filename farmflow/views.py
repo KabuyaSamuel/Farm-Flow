@@ -34,12 +34,43 @@ def index(request):
     return render(request, 'bootstrap/index.html', context)
 
 
-
 def Static(request):
     return render(request, 'bootstrap/layout-static.html')
 
 def LigthNav(request):
-    return render(request, 'bootstrap/layout-sidenav-light.html' )
+    return render(request, 'bootstrap/layout-sidenav-light.html')
+
+def Chart(request):
+    return render(request, 'bootstrap/charts.html')
+
+def Table(request):
+    user = request.user
+    if not user.is_authenticated:
+        # Redirect to login page if user is not authenticated
+        return redirect('login')
+    if farmer := user.farmer.first():
+        farms = Farm.objects.filter(owner=user).prefetch_related('crops').all()
+        production_stages = CropProductionStage.objects.filter(farm__in=farms).order_by('-planted_date')
+        produce = Produce.objects.filter(farmer=user.profile)
+        tags = Tag.objects.filter(produce__in=produce)
+        
+    else:
+        # Show empty fields if user does not have a farmer object
+        farms = Farm.objects.none()
+        production_stages = CropProductionStage.objects.none()
+        produce = Produce.objects.none()
+        tags = Tag.objects.none()
+    context = { 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags}
+    return render(request, 'bootstrap/tables.html', context)
+
+def NotFound(request):
+     return render(request, 'bootstrap/404.html')
+
+def Unauthorised(request):
+        return render(request, 'bootstrap/401.html')
+
+def ServerError(request):
+        return render(request, 'bootstrap/500.html')
 
 class RegisterView(View):
     form_class = RegisterForm

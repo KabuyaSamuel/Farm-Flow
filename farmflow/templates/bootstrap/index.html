@@ -85,19 +85,19 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="#">401 Page</a>
-                                            <a class="nav-link" href="#">404 Page</a>
-                                            <a class="nav-link" href="#">500 Page</a>
+                                            <a class="nav-link" href="{% url '401' %}">401 Page</a>
+                                            <a class="nav-link" href="{% url '404' %}">404 Page</a>
+                                            <a class="nav-link" href="{% url '500' %}">500 Page</a>
                                         </nav>
                                     </div>
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{% url 'chart' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
                             </a>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{% url 'table' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Tables
                             </a>
@@ -244,17 +244,17 @@
                                             <!--<th>Farm</th> -->
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Crop</th>
-                                            <th>Planted</th>
-                                            <th>Harvested</th>
-                                            <th>Ploughing</th>
-                                            <th>Weeding</th>
-                                            <th>Inputs used</th>
+                                    <!-- <tfoot> -->
+                                        <!-- <tr> -->
+                                            <!-- <th>Crop</th> -->
+                                            <!-- <th>Planted</th> -->
+                                            <!-- <th>Harvested</th> -->
+                                            <!-- <th>Ploughing</th> -->
+                                            <!-- <th>Weeding</th> -->
+                                            <!-- <th>Inputs used</th> -->
                                             <!--<th>Farm</th> -->
-                                        </tr>
-                                    </tfoot>
+                                        <!-- </tr> -->
+                                    <!-- </tfoot> -->
                                     <tbody>
                                         {% for production_stage in production_stages %}
                                         <tr>
