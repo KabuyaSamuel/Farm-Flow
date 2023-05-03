@@ -17,18 +17,22 @@ def index(request):
         # Redirect to login page if user is not authenticated
         return redirect('login')
     if farmer := user.farmer.first():
-        # crops = Crop.objects.filter(value_chain__in=farmer.value_chains.all())
-        # farms = Farm.objects.filter(owner=user).prefetch_related('crops', 'crops__cropproductionstage_set').all()
         farms = Farm.objects.filter(owner=user).prefetch_related('crops').all()
         crops = Crop.objects.filter(id__in=[crop.id for farm in farms for crop in farm.crops.all()]).distinct()
         production_stages = CropProductionStage.objects.filter(farm__in=farms).order_by('-planted_date')
+        produce = Produce.objects.filter(farmer=user.profile)
+        tags = Tag.objects.filter(produce__in=produce)
+        
     else:
         # Show empty fields if user does not have a farmer object
         crops = Crop.objects.none()
         farms = Farm.objects.none()
         production_stages = CropProductionStage.objects.none()
-    context = {'crops': crops, 'farms': farms, 'production_stages': production_stages}
+        produce = Produce.objects.none()
+        tags = Tag.objects.none()
+    context = {'crops': crops, 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags}
     return render(request, 'dashboard/starter.html', context)
+
 
 
 def dashboard(request):

@@ -194,7 +194,6 @@ class Produce(models.Model):
     grade = models.CharField(max_length=255, choices=GRADE_CHOICES, unique=True)
     production_date = models.DateField()
     value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
-
     # Add a field to track the status of the produce (e.g., harvested, in transit, at the market, sold).
     STATUS_CHOICES = [
         ('Harvested', 'Harvested'),
@@ -203,7 +202,6 @@ class Produce(models.Model):
         ('Sold', 'Sold'),
     ]
     status = models.CharField(max_length=255, choices=STATUS_CHOICES)
-
     # Add a field to track the location of the produce, such as the name of the market or the name of the buyer.
     location = models.CharField(max_length=255)
 

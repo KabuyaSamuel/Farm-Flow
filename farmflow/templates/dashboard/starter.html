@@ -179,7 +179,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
+            <a href="#" class="d-block">{{user.username}}</a>
           </div>
         </div>
 
@@ -367,12 +367,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               <div class="card card-primary card-outline">
                 <div class="card-header">
-                  <h5 class="m-0">Featured</h5>
+                  <h5 class="m-0">Farm Produce</h5>
                 </div>
                 <div class="card-body">
-                  <h6 class="card-title">Special title treatment</h6>
+                  <h6 class="card-title">{{user.username}}'s Farm Produce</h6>
 
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <p class="card-text">
+                    {% for item in produce %}
+                      <h3>{{ item.type }}</h3>
+                      <p>Quantity: {{ item.quantity }}kg</p>
+                      <p>Grade: {{ item.grade }}</p>
+                      <p>Production Date: {{ item.production_date }}</p>
+                      <p>Status: {{ item.status }}</p>
+                      <p>Location: {{ item.location }}</p>
+                      {% for tag in item.tag_set.all %}
+                        <p>Tag ID: {{ tag.tag_id }}</p>
+                        <p>Status: {{ tag.status }}</p>
+                      {% empty %}
+                        <p>No tags associated with this produce.</p>
+                      {% endfor %}
+                    {% endfor %}
                   <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>
               </div>
