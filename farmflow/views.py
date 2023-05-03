@@ -31,12 +31,15 @@ def index(request):
         produce = Produce.objects.none()
         tags = Tag.objects.none()
     context = {'crops': crops, 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags}
-    return render(request, 'dashboard/starter.html', context)
+    return render(request, 'bootstrap/index.html', context)
 
 
 
-def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+def Static(request):
+    return render(request, 'bootstrap/layout-static.html')
+
+def LigthNav(request):
+    return render(request, 'bootstrap/layout-sidenav-light.html' )
 
 class RegisterView(View):
     form_class = RegisterForm
