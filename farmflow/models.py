@@ -7,14 +7,14 @@ import uuid
 
 # Create your models here.
 class Cluster(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     location = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
 class ProducerGroup(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     cluster = models.ForeignKey(Cluster, on_delete=models.CASCADE)
     members = models.ManyToManyField(User, related_name='producer_groups')
 
@@ -29,7 +29,7 @@ class ValueChainChoice(models.Model):
         ("Dairy", "Dairy"),
 
     ]
-    name = models.CharField(max_length=255, choices=VALUE_CHAIN_CHOICE)
+    name = models.CharField(max_length=255, choices=VALUE_CHAIN_CHOICE, unique=True)
 
 
     def __str__(self):
@@ -44,8 +44,8 @@ class SoilTestResult(models.Model):
         ("Complete", "Complete"),
         ("Partial", "Partial"),
     ]
-    type = models.CharField(max_length=255, choices=TYPE_CHOICES)
-    done = models.CharField(max_length=255, choices=RESPONSES)
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES, unique=True)
+    done = models.CharField(max_length=255, choices=RESPONSES, unique=True)
     reason = models.CharField(max_length=255, blank=True)
 
 
@@ -78,7 +78,7 @@ class FarmingType(models.Model):
         ("Greenhouse", "Greenhouse"),
 
     ]
-    type = models.CharField(max_length=255, choices=FARMING_CHOICES)
+    type = models.CharField(max_length=255, choices=FARMING_CHOICES, unique=True)
 
     def __str__(self):
         return self.type
@@ -92,7 +92,7 @@ class WaterSource(models.Model):
         ("Swamp", "Swamp"),
         ('Other', 'other')
     ]
-    type = models.CharField(max_length=255, choices=WATER_SOURCE_CHOICES)
+    type = models.CharField(max_length=255, choices=WATER_SOURCE_CHOICES, unique=True)
 
     def __str__(self):
         return self.type
@@ -107,16 +107,19 @@ class Farm(models.Model):
     soil_test = models.ForeignKey(SoilTestResult, on_delete=models.CASCADE)
     water_source = models.ForeignKey(WaterSource, on_delete=models.CASCADE)
     farming_type = models.ForeignKey(FarmingType, on_delete=models.CASCADE)
-    value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
     input_used = models.ManyToManyField('InputUsed', through='FarmInputUsed')
+    value_chains = models.ManyToManyField(ValueChainChoice, blank=True)
 
     @classmethod
     def my_farms(cls, user_id):
         return cls.objects.filter(owner__id=user_id)
 
     def __str__(self):
-        crop_names = ', '.join([crop.name for crop in self.crops.all()])
-        return f"{self.owner.get_full_name()}'s farm ({self.value_chain}): {crop_names}"
+        value_chain_names = ', '.join([value_chain.name for value_chain in self.value_chains.all()])
+        crop_names = [crop.name for crop in self.crops.all()]
+        crop_str = crop_names[0] if len(crop_names) == 1 else ', '.join(crop_names)
+        return f"{self.owner.get_full_name()}'s farm ({value_chain_names}): {crop_str}"
+
     
 class Profile(models.Model):
     GENDER_CHOICES =[
@@ -161,6 +164,7 @@ class FarmInputUsed(models.Model):
     input_used = models.ForeignKey(InputUsed, on_delete=models.CASCADE)
     quantity_used = models.PositiveSmallIntegerField(blank=True, null=True)
     crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
+    date_used =  models.DateField()
 
     def __str__(self):
         return f"{self.farm} used {self.quantity_used} {self.input_used.amount} of {self.input_used.name}"
@@ -187,7 +191,7 @@ class Produce(models.Model):
     farmer = models.ForeignKey(Profile, on_delete=models.CASCADE)
     type = models.CharField(max_length=255)
     quantity = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    grade = models.CharField(max_length=255, choices=GRADE_CHOICES)
+    grade = models.CharField(max_length=255, choices=GRADE_CHOICES, unique=True)
     production_date = models.DateField()
     value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
 
@@ -207,13 +211,17 @@ class Produce(models.Model):
         return f'{self.type} - {self.quantity}kg ({self.farmer.user.username})'
     
 class Tag(models.Model):
-    tag_id = models.CharField(max_length=36, default=str(uuid.uuid4()), unique=True, editable=False)
+    tag_id = models.CharField(max_length=36, unique=True, editable=False)
     farmer = models.ForeignKey(Profile, on_delete=models.CASCADE)
     produce = models.ForeignKey(Produce, on_delete=models.CASCADE)
     status = models.CharField(max_length=50, default='Harvested')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.tag_id:
+            self.tag_id = str(uuid.uuid4())
+
     def save(self, *args, **kwargs):
-        # Set the default value of status to the value of status in the related Produce instance
         if self.produce:
             self.status = self.produce.status
         super().save(*args, **kwargs)
