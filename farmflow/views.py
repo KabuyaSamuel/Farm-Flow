@@ -8,6 +8,11 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from .forms import UpdateUserForm, UpdateProfileForm
 from .models import *
+# import jwt
+# from django.conf import settings
+# from django.http import HttpResponse
+
+
 
 # Create your views here.
 @login_required
