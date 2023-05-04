@@ -97,7 +97,7 @@ if config('MODE')=="dev":
            'USER': config('DB_USER'),
            'PASSWORD': config('DB_PASSWORD'),
            'HOST': config('DB_HOST'),
-           'PORT': '',
+           'PORT': '6512',
        }
        
    }
@@ -206,3 +206,10 @@ cloudinary.config(
     api_secret=config('CD_API_KEY_SECRET'),
     secure=True
 )
+
+# WHITELISTED DOMAINS TO ACCESS THIS APP
+CORS_ALLOWED_ORIGINS = [
+    # FIXME: Replace below origin link with production link
+    "http://localhost:8000",
+    "https://farm-share.up.railway.app/",
+]
