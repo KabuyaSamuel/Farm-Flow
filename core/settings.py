@@ -214,3 +214,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://farm-share.up.railway.app/",
     "https://farmshare.co.ke/",
 ]
+
+
+CSRF_TRUSTED_ORIGINS = ['https://farm-share.up.railway.app/', 'https://farmshare.co.ke/']
