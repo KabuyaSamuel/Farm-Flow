@@ -170,8 +170,8 @@ class FarmInputUsed(models.Model):
         return f"{self.farm} used {self.quantity_used} {self.input_used.amount} of {self.input_used.name}"
 
 class CropProductionStage(models.Model):
-    planted_date = models.DateField(auto_now_add=True)
-    harvested_date = models.DateField(auto_now=True)
+    planted_date = models.DateField()
+    harvested_date = models.DateField()
     ploughing = models.DateField()
     weeding = models.DateField()
     harvesting = models.DateField()
