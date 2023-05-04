@@ -212,4 +212,5 @@ CORS_ALLOWED_ORIGINS = [
     # FIXME: Replace below origin link with production link
     "http://localhost:8000",
     "https://farm-share.up.railway.app/",
+    "https://farmshare.co.ke/",
 ]
