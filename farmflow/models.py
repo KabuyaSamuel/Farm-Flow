@@ -167,7 +167,7 @@ class FarmInputUsed(models.Model):
     date_used =  models.DateField()
 
     def __str__(self):
-        return f"{self.farm} used {self.quantity_used} {self.input_used.amount} of {self.input_used.name}"
+        return f"{self.farm} used {self.quantity_used} {self.input_used.amount} of {self.input_used.name} on {self.date_used}"
 
 class CropProductionStage(models.Model):
     planted_date = models.DateField()
