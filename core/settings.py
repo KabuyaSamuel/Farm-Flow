@@ -213,7 +213,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "https://farm-share.up.railway.app/",
     "https://farmshare.co.ke/",
+    "https://www.valuechain.farmshare.co.ke/",
 ]
 
 
-CSRF_TRUSTED_ORIGINS = ['https://farm-share.up.railway.app', 'https://farmshare.co.ke']
+CSRF_TRUSTED_ORIGINS = ['https://farm-share.up.railway.app', 'https://farmshare.co.ke', 'https://www.valuechain.farmshare.co.ke/']
