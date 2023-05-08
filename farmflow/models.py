@@ -206,7 +206,7 @@ class Produce(models.Model):
     location = models.CharField(max_length=255)
 
     def __str__(self):
-        return f'{self.type} - {self.quantity}kg ({self.farmer.user.username})'
+        return f'{self.type} - {self.quantity}kg of {self.grade} by ({self.farmer.user.username}) on {self.production_date} currently {self.status}'
     
 class Tag(models.Model):
     tag_id = models.CharField(max_length=36, unique=True, editable=False)
