@@ -1,79 +1,149 @@
-{% extends "users/base.html" %}
-{% block title %} Login Page {% endblock title%}
-{% block content %}
-    <div class="form-content my-3 p-3">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3">
-                        <div class="card-header justify-content-center">
-                          <h3 class="font-weight-light my-1 text-center">Sign In</h3>
-                        </div>
-                        {% if form.errors %}
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div id="form_errors">
-                                    {% for key, value in form.errors.items %}
-                                        <strong>{{ value }}</strong>
-                                    {% endfor %}
-                                </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% endif %}
-                        <div class="card-body">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                            <a href="{% url 'social:begin' 'github' %}"
-                                                   class="btn btn-link btn-lg active btn-block">Sign in with GitHub</a>
-                                            <a href="{% url 'social:begin' 'google-oauth2' %}"
-                                                   class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
-                                            <hr>
-                                            <p class="text-center"><strong>OR</strong></p>
-                                            <hr>
-                                            <label class="small mb-1">Username</label>
-                                            {{ form.username }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                          <label class="small mb-1">Password</label>
-                                          {{ form.password }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                            <!-- Add a Remember me functionality -->
-                                            {{ form.remember_me }}
-                                            <label> Remember me</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group mt-0 mb-1">
-                                          <button name="login" class="col-md-12 btn btn-dark" id="login">Sign in</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center">
-                            <div class="small">
-                                <a href="{% url 'users-register' %}">Don't have an account yet? Go to signup</a><br>
-                                <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-     </div>
-{% endblock content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Login Page</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="{% static 'login/css/style.css' %}" />
+</head>
+
+<body style="background-image: url(/media/login/images/loginbg2.jpg)">
+	{% if messages %}
+	<div class="alert alert-dismissible" role="alert">
+		<!-- {% for message in messages %}
+		<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+		{% endfor %}
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endif %}
+	{% block content %}{% endblock %}
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Farm Share</h2>
+				</div>
+			</div>
+			{% if form.errors %}
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<div id="form_errors">
+					{% for key, value in form.errors.items %}
+					<strong>{{ value }}</strong>
+					{% endfor %} -->
+	</div>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	</div>
+	{% endif %}
+	<div class="row justify-content-center">
+		<div class="col-md-6 col-lg-4">
+			<div class="login-wrap p-0">
+				<h3 class="mb-4 text-center">Have an account?</h3>
+				<form method="POST" class="signin-form">
+					{% csrf_token %}
+					<div class="form-group">
+						<!-- <input type="text" class="form-control" placeholder="Username" required> -->
+						{{ form.username }}
+					</div>
+					<div class="form-group">
+						<!-- <input id="password-field" type="password" class="form-control" placeholder="Password" required> -->
+						{{ form.password }}
+					</div>
+					<div class="form-group">
+						<button name="login" class="form-control btn btn-primary submit px-3" id="login">
+							Sign In
+						</button>
+					</div>
+					<div class="form-group d-md-flex">
+						<div class="w-50">
+							<label class="checkbox-wrap checkbox-primary">Remember Me {{ form.remember_me }}
+								<span class="checkmark"></span>
+							</label>
+						</div>
+						<div class="w-50 text-md-right">
+							<a href="{% url 'password_reset' %}" style="color: #fff">Forgot Password</a>
+						</div>
+					</div>
+					<div class="text-center">
+						<a href="{% url 'users-register' %}">Go to signup</a><br />
+					</div>
+				</form>
+				<p class="w-100 text-center">&mdash; Or Sign In With &mdash;</p>
+				<div class="social d-flex text-center gap-5">
+					<a style="border-radius: 5px;" href="{% url 'social:begin' 'github' %}"><svg
+							xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50"
+							viewBox="0 0 48 48">
+							<path fill="#2100c4"
+								d="M24,4C12.954,4,4,12.954,4,24c0,8.887,5.801,16.411,13.82,19.016h12.36 C38.199,40.411,44,32.887,44,24C44,12.954,35.046,4,24,4z">
+							</path>
+							<path fill="#ddbaff"
+								d="M37,23.5c0-2.897-0.875-4.966-2.355-6.424C35.591,15.394,34.339,12,34.339,12 c-2.5,0.5-4.367,1.5-5.609,2.376C27.262,14.115,25.671,14,24,14c-1.71,0-3.339,0.118-4.834,0.393 c-1.242-0.879-3.115-1.889-5.632-2.393c0,0-1.284,3.492-0.255,5.146C11.843,18.6,11,20.651,11,23.5 c0,6.122,3.879,8.578,9.209,9.274C19.466,33.647,19,34.764,19,36l0,0.305c-0.163,0.045-0.332,0.084-0.514,0.108 c-1.107,0.143-2.271,0-2.833-0.333c-0.562-0.333-1.229-1.083-1.729-1.813c-0.422-0.616-1.263-2.032-3.416-1.979 c-0.376-0.01-0.548,0.343-0.5,0.563c0.043,0.194,0.213,0.5,0.896,0.75c0.685,0.251,1.063,0.854,1.438,1.458 c0.418,0.674,0.417,2.468,2.562,3.416c1.53,0.677,2.988,0.594,4.097,0.327l0.001,3.199c0,0.639-0.585,1.125-1.191,1.013 C19.755,43.668,21.833,44,24,44c2.166,0,4.243-0.332,6.19-0.984C29.584,43.127,29,42.641,29,42.002L29,36 c0-1.236-0.466-2.353-1.209-3.226C33.121,32.078,37,29.622,37,23.5z">
+							</path>
+							<path fill="#ddbaff"
+								d="M15,18l3.838-1.279c1.01-0.337,1.231-1.684,0.365-2.302l-0.037-0.026 c-2.399,0.44-4.445,1.291-5.888,2.753C13.596,17.658,14.129,18,15,18z">
+							</path>
+							<path fill="#ddbaff"
+								d="M28.693,14.402c-0.878,0.623-0.655,1.987,0.366,2.327L32.872,18c0.913,0,1.461-0.37,1.773-0.924 c-1.46-1.438-3.513-2.274-5.915-2.701C28.717,14.384,28.705,14.393,28.693,14.402z">
+							</path>
+							<path fill="#ddbaff"
+								d="M24,31c-1.525,0-2.874,0.697-3.791,1.774C21.409,32.931,22.681,33,24,33s2.591-0.069,3.791-0.226 C26.874,31.697,25.525,31,24,31z">
+							</path>
+						</svg> </a>
+					<a style="border-radius: 5px;" href="{% url 'social:begin' 'google-oauth2' %}"><svg
+							xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50"
+							viewBox="0 0 48 48">
+							<path fill="#FFC107"
+								d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+							</path>
+							<path fill="#FF3D00"
+								d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+							</path>
+							<path fill="#4CAF50"
+								d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+							</path>
+							<path fill="#1976D2"
+								d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+							</path>
+						</svg></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</section>
+
+	<script src="{% static 'login/js/jquery.min.js' %}"></script>
+	<script src="{% static 'login/js/popper.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+	</script>
+
+	<!-- A plugin for password show/hide -->
+	<script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+</body>
+
+</html>
