@@ -27,6 +27,7 @@ def index(request):
         production_stages = CropProductionStage.objects.filter(farm__in=farms).order_by('-planted_date')
         produce = Produce.objects.filter(farmer=user.profile)
         tags = Tag.objects.filter(produce__in=produce)
+        farm_count = farms.count()
         
     else:
         # Show empty fields if user does not have a farmer object
@@ -35,7 +36,8 @@ def index(request):
         production_stages = CropProductionStage.objects.none()
         produce = Produce.objects.none()
         tags = Tag.objects.none()
-    context = {'crops': crops, 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags}
+        
+    context = {'crops': crops, 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags,'farm_count': farm_count}
     return render(request, 'bootstrap/index.html', context)
 
 
@@ -143,8 +145,16 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 
 @login_required
 def profile(request):
-    profile = Profile.objects.all()
-    return render(request, 'users/profile.html', {'profile': profile})
+    profile = Profile.objects.get(user=request.user)
+    farms = Farm.my_farms(request.user.id)
+    crop_counts = [farm.crops.count() for farm in farms]
+    farm_count = farms.count()
+    context = {
+        'profile': profile,
+        'crop_counts': crop_counts,
+        'farm_count': farm_count,
+    }
+    return render(request, 'users/profile.html', context)
 
 @login_required
 def edit_profile(request):
