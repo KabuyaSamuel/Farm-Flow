@@ -1,86 +1,117 @@
-{% extends "users/base.html" %}
-{% block title %} Register Page {% endblock title%}
-{% block content %}
-    <div class="form-content my-3 p-3">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-7">
-                    <div class="card shadow-lg border-0 rounded-lg mt-0 mb-5">
-                        <div class="card-header justify-content-center">
-                            <h3 class="font-weight-light my-4 text-center">Create Account</h3>
-                        </div>
-                        <div class="card-body">
-                            <form method="POST">
-                                {% csrf_token %}
-                                {% if form.errors %}
-                                    <div class="alert alert-danger alert-dismissible" role="alert">
-                                        <div id="form_errors">
-                                            {% for key, value in form.errors.items %}
-                                                <strong>{{ value }}</strong>
-                                            {% endfor %}
-                                        </div>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                {% endif %}
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1">First Name</label>
-                                            {{ form.first_name }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1">Last Name</label>
-                                            {{ form.last_name }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1">Username</label>
-                                            {{ form.username }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1">Email</label>
-                                            {{ form.email }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="small mb-1">Password</label>
-                                            {{ form.password1 }}
-                                            {{ form.errors.password }}
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+{% load static %}
+<!DOCTYPE html>
+<html>
 
-                                        <div class="form-group">
-                                            <label class="small mb-1">Confirm Password</label>
-                                            {{ form.password2 }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group mt-4 mb-0">
-                                    <button type="submit" class="col-md-12 btn btn-dark">Sign Up</button><br><br>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center">
-                            <div class="small">
-                                <a href="{% url 'login' %}">Have an account? Go to Sign in</a>
-                            </div>
-                        </div>
+<head>
+    <meta charset="utf-8">
+    <title>Registration Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- MATERIAL DESIGN ICONIC FONT -->
+    <link rel="stylesheet" href="{% static 'css/material-design-iconic-font.min.css' %}"
+        href="{ % static 'register\fonts\material-design-iconic-font' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--Font awesome icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="{% static  'register\css\style.css' %}" type="text/css" />
+</head>
+
+<body style="background-image: url('/media/reg.jpg');background-repeat: no-repeat;">
+    <div class="wrapper">
+        {% if messages %}
+        <div class="alert alert-dismissible" role="alert">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        <div class="inner">
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <div id="form_errors">
+                    {% for key, value in form.errors.items %}
+                    <strong>{{ value }}</strong>
+                    {% endfor %}
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            <form form method="POST"
+                style="box-shadow: 5px 5px 8px 5px rgba(0, 0, 0, .4);min-height: 100px;padding: 40px;">
+                {% csrf_token %}
+                <h3>Registration Form</h3>
+                <div class="form-group">
+                    <div class="form-wrapper">
+                        <label>First Name</label>
+                        <!-- <input type="text" class="form-control"> -->
+                        {{ form.first_name }}
+                    </div>
+                    <div class="form-wrapper">
+                        <label>Last Name</label>
+                        <!-- <input type="text" class="form-control"> -->
+                        {{ form.last_name }}
                     </div>
                 </div>
-            </div>
+                <div class="form-wrapper">
+                    <label>Username</label>
+                    <!-- <input type="text" class="form-control"> -->
+                    {{ form.username }}
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Email</label>
+                    <!-- <input type="text" class="form-control"> -->
+                    {{ form.email }}
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Password</label>
+                    <!-- <input type="password" class="form-control"> -->
+                    {{ form.password1 }}
+                    {{ form.errors.password }}
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Confirm Password</label>
+                    <!-- <input type="password" class="form-control"> -->
+                    {{ form.password2 }}
+                </div>
+                <div class="card-footer text-center">
+                    <div class="small text-center">
+                        <a href="{% url 'login' %}">Have an account? Go to Sign in</a>
+                    </div>
+                </div>
+                <button class="click" type="submit">Register Now</button>
+            </form>
         </div>
     </div>
-{% endblock content %}
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+    <!-- A plugin for password show/hide -->
+    <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+
+
+</body>
+
+
+
+</html>
