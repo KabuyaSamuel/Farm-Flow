@@ -28,12 +28,15 @@ source venv/bin/activate
 
 `install dependancies`
 
+Upon creating a virtual environment, proceed to install the project dependencies with the following command
 
 ```bash
 pip install -r requirements.txt
 ```
 
 `Start database`
+
+Next step  is to start the database. On a new terminal run the following command
 
 1. Windows
 
@@ -47,11 +50,16 @@ sudo systemctl start postgresql.service
 ```
 
 `Migrations`
+
+Once the database is up and running - migrate the db 
+
 ```bash
 python manage.py migrate 
 ```
 
 `Run Locally`
+
+Once all the above steps are done - proceed to run the project locally by running the following command. 
 
 ```bash
 python manage.py runserver
