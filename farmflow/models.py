@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 from phonenumber_field.modelfields import PhoneNumberField
 import uuid
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 # Create your models here.
@@ -178,6 +180,20 @@ class CropProductionStage(models.Model):
     crop = models.ForeignKey(Crop, on_delete=models.CASCADE)
     inputs = models.ManyToManyField(InputUsed, blank=True)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE)
+
+    def clean(self):
+        if self.harvested_date < self.planted_date:
+            raise ValidationError('Harvested date cannot be before planted date')
+
+        if self.harvesting > self.harvested_date:
+            raise ValidationError('Harvesting date cannot be greater than harvested date')
+
+        if self.harvesting > timezone.now().date():
+            raise ValidationError('Harvesting date cannot be in the future')
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.crop} production stage at {self.farm} ({self.planted_date} - {self.harvested_date})"

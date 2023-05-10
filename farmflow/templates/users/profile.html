@@ -7,13 +7,18 @@
             <div class="col-lg-6">
                 <div class="about-text go-to">
                     <h3 class="dark-color">{{user.username}}</h3>
-                    <h6 class="theme-color lead">A farmer based in {{user.profile.farm.location}} growing:
-                        {% if user.profile.farm %}
+                    <h6 class="theme-color lead">
+                        A farmer based in {% if user.profile.farm %}
+                        {% for farm in user.farmer.all %}{{ farm.location }}{% if not forloop.last %},
+                        {% endif %}{% endfor %}
+                        growing:
                         <ul>
-                            {% for crop in user.profile.farm.crops.all %}
-                            <li>{{ crop.name }}</li>
+                            {% for farm in user.farmer.all %}
+                            <li>{{ farm.location }} farm:
+                                {% for crop in farm.crops.all %}{{ crop.name }}{% if not forloop.last %},
+                                {% endif %}{% endfor %}</li>
                             {% empty %}
-                            <li>No crops found</li>
+                            <li>No farms found</li>
                             {% endfor %}
                         </ul>
                         {% endif %}
@@ -30,8 +35,14 @@
                                 <p>{{user.profile.id_number}}</p>
                             </div>
                             <div class="media">
-                                <label>Farm</label>
-                                <p>{{user.profile.farm}}</p>
+                                <label>Value Chains</label>
+                                <ul>
+                                {% for value_chain in value_chains %}
+                                    <li>{{ value_chain.name }}</li>
+                                {% empty %}
+                                    <li>No value chains found</li>
+                                {% endfor %}
+                            </ul>
                             </div>
                             <div class="media">
                                 <label>Producer Group</label>
@@ -52,8 +63,20 @@
                                 <p>{{user.profile.gender}}</p>
                             </div>
                             <div class="media">
-                                <label>Location</label>
-                                <p>{{user.profile.farm.location}}</p>
+                                <label>Locations</label>
+                                <ul>
+                                    {% for farm in user.farmer.all %}
+                                    <li>{{ farm.location }}</li>
+                                    {% empty %}
+                                    <li>No farms found</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                            <hr>
+                            <div class="text-center">
+                                <a href="{% url 'home' %}">Dashboard</a> &nbsp; &nbsp;
+                                <a href="{% url 'edit-profile' %}">Edit Profile</a>
                             </div>
                         </div>
                     </div>
@@ -69,7 +92,7 @@
             <div class="row">
                 <div class="col-6 col-lg-3">
                     <div class="count-data text-center">
-                        <h6 class="count h2" data-to="500" data-speed="500">2</h6>
+                        <h6 class="count h2" data-to="500" data-speed="500">{{ value_chain_count }}</h6>
                         <p class="m-0px font-w-600">Value Chain Count</p>
                     </div>
                 </div>
@@ -81,20 +104,13 @@
                 </div>
                 <div class="col-6 col-lg-3">
                     <div class="count-data text-center">
-                        <h6 class="count h2" data-to="850" data-speed="850">{% if crop_counts %}
-                            {% for count in crop_counts %}
-                            {{ count }}
-                            {% empty %}
-                            No crops found
-                            {% endfor %}
-                            {% endif %}
-                        </h6>
+                        <h6 class="count h2" data-to="850" data-speed="850">{{crop_count}}</h6>
                         <p class="m-0px font-w-600">Crop Count</p>
                     </div>
                 </div>
                 <div class="col-6 col-lg-3">
                     <div class="count-data text-center">
-                        <h6 class="count h2" data-to="190" data-speed="190">2</h6>
+                        <h6 class="count h2" data-to="190" data-speed="190">{{ produce_count }}</h6>
                         <p class="m-0px font-w-600">Produce Count</p>
                     </div>
                 </div>
