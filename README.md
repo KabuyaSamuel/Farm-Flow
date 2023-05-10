@@ -7,32 +7,45 @@ Farm Flow is a web-based platform that aims to connect farmers with buyers, stre
 Create a virtual environment and activate it with the following commands. 
 
 1. Windows
-
+```bash
 python -m venv myenv
+```
 
+```bash
 myenv\Scripts\activate.bat
-
+```
 
 2. Linux
 
-python3 -m venv myenv
+``` bash 
+python3 -m venv myenv 
+```
 
+```bash
 source venv/bin/activate  
+```
 
+```bash
 install dependancies
+```
 
+```bash
 pip install -r requirements.txt
+```
 
-
+```bash
 `Start database`
-
+```
 1. Windows
 
+```bash
 pg_ctl start
-
+```
 2. Linux
 
+```bash
 sudo systemctl start postgresql.service 
+```
 
 `Migrations`
 
