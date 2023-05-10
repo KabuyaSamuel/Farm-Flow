@@ -25,17 +25,16 @@ python3 -m venv myenv
 source venv/bin/activate  
 ```
 
-```bash
-install dependancies
-```
+
+`install dependancies`
+
 
 ```bash
 pip install -r requirements.txt
 ```
 
-```bash
 `Start database`
-```
+
 1. Windows
 
 ```bash
@@ -48,11 +47,13 @@ sudo systemctl start postgresql.service
 ```
 
 `Migrations`
-
+```bash
 python manage.py migrate 
+```
 
 `Run Locally`
 
+```bash
 python manage.py runserver
-
+```
 
