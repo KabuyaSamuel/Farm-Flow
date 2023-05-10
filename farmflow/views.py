@@ -8,6 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from .forms import UpdateUserForm, UpdateProfileForm
 from .models import *
+from django.db.models import Count
 # import jwt
 # from django.conf import settings
 # from django.http import HttpResponse
@@ -28,6 +29,11 @@ def index(request):
         produce = Produce.objects.filter(farmer=user.profile)
         tags = Tag.objects.filter(produce__in=produce)
         farm_count = farms.count()
+        crop_counts = [farm.crops.count() for farm in farms]
+        total_crop_count = sum(crop_counts)
+        value_chain_count = ValueChainChoice.objects.filter(farm__owner=request.user).distinct().count()
+        produce_count = Produce.objects.filter(farmer=user.profile).count()
+
         
     else:
         # Show empty fields if user does not have a farmer object
@@ -36,8 +42,9 @@ def index(request):
         production_stages = CropProductionStage.objects.none()
         produce = Produce.objects.none()
         tags = Tag.objects.none()
+        total_crop_count = 0
         
-    context = {'crops': crops, 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags,'farm_count': farm_count}
+    context = {'crops': crops, 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags,'farm_count': farm_count, 'crop_counts': crop_counts,'total_crop_count': total_crop_count,'value_chain_count': value_chain_count,'produce_count': produce_count,}
     return render(request, 'bootstrap/index.html', context)
 
 
@@ -148,11 +155,21 @@ def profile(request):
     profile = Profile.objects.get(user=request.user)
     farms = Farm.my_farms(request.user.id)
     crop_counts = [farm.crops.count() for farm in farms]
+    crop_count = sum(crop_counts)
     farm_count = farms.count()
+    produce_count = Produce.objects.filter(farmer=profile).count()
+    value_chain_count = ValueChainChoice.objects.filter(farm__owner=request.user).distinct().count()
+    value_chains = ValueChainChoice.objects.filter(farm__owner=request.user).distinct()
+
+
     context = {
         'profile': profile,
         'crop_counts': crop_counts,
         'farm_count': farm_count,
+        'produce_count': produce_count,
+        'value_chain_count': value_chain_count,
+        'crop_count': crop_count,
+        'value_chains': value_chains,
     }
     return render(request, 'users/profile.html', context)
 
