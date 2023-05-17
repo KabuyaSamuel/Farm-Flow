@@ -15,13 +15,17 @@ from django.db.models import Count
 
 
 
-# Create your views here.
 @login_required
 def index(request):
     user = request.user
     if not user.is_authenticated:
-        # Redirect to login page if user is not authenticated
         return redirect('login')
+        
+    farm_count = 0
+    crop_counts = []
+    value_chain_count = 0
+    produce_count = 0
+    
     if farmer := user.farmer.first():
         farms = Farm.objects.filter(owner=user).prefetch_related('crops').all()
         crops = Crop.objects.filter(id__in=[crop.id for farm in farms for crop in farm.crops.all()]).distinct()
@@ -33,10 +37,7 @@ def index(request):
         total_crop_count = sum(crop_counts)
         value_chain_count = ValueChainChoice.objects.filter(farm__owner=request.user).distinct().count()
         produce_count = Produce.objects.filter(farmer=user.profile).count()
-
-        
     else:
-        # Show empty fields if user does not have a farmer object
         crops = Crop.objects.none()
         farms = Farm.objects.none()
         production_stages = CropProductionStage.objects.none()
@@ -44,7 +45,18 @@ def index(request):
         tags = Tag.objects.none()
         total_crop_count = 0
         
-    context = {'crops': crops, 'farms': farms, 'production_stages': production_stages, 'produce': produce,'tags': tags,'farm_count': farm_count, 'crop_counts': crop_counts,'total_crop_count': total_crop_count,'value_chain_count': value_chain_count,'produce_count': produce_count,}
+    context = {
+        'crops': crops,
+        'farms': farms,
+        'production_stages': production_stages,
+        'produce': produce,
+        'tags': tags,
+        'farm_count': farm_count,
+        'crop_counts': crop_counts,
+        'total_crop_count': total_crop_count,
+        'value_chain_count': value_chain_count,
+        'produce_count': produce_count,
+    }
     return render(request, 'bootstrap/index.html', context)
 
 
