@@ -9,9 +9,6 @@ from django.contrib.auth.decorators import login_required
 from .forms import UpdateUserForm, UpdateProfileForm, PlantImageForm
 from .models import *
 from django.db.models import Count
-# import jwt
-# from django.conf import settings
-# from django.http import HttpResponse
 import base64
 import json
 import requests

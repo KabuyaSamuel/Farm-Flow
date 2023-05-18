@@ -133,7 +133,15 @@
               <p class="mb-0">
                 <div class="row">
                   <div class="col-12">
-                    <h2>Plant Disease Details</h2>
+                    <h3>Uploaded Image</h3>
+                    {% if plant_data.images %}
+                    <img src="{{ plant_data.images.0.url }}" alt="Uploaded image" class="img-fluid">
+                    {% else %}
+                    <div class="alert alert-info" role="alert">
+                      No image found.
+                    </div>
+                    {% endif %}
+                    <h3>Plant Health Status</h3>
                     {% if plant_data.health_assessment.is_healthy %}
                     <div class="alert alert-success" role="alert">
                       The plant is healthy.
@@ -158,7 +166,7 @@
                         <h5 class="card-title">Description:</h5>
                         <p class="card-text">{{ disease.disease_details.description }}</p>
                         <!-- <h5 class="card-title">Probability:</h5>
-                <p class="card-text">{{ disease.probability }}</p> -->
+                        <p class="card-text">{{ disease.probability }}</p> -->
                         <h5 class="card-title">Treatment:</h5>
                         <p class="card-text"><strong>Chemical:</strong> {{ disease.disease_details.treatment.chemical }}
                         </p>
