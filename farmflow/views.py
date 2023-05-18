@@ -88,6 +88,7 @@ def identify_plant(request):
                                      headers=headers)
 
             plant_data = response.json()
+            
             return render(request, 'bootstrap/plant_details.html', {'plant_data': plant_data})
     else:
         form = PlantImageForm()

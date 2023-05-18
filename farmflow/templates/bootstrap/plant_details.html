@@ -37,35 +37,29 @@
             <div class="row">
               <div class="col-12">
                 <h2>Diseases that affect this crop</h2>
-                {% if plant_data.health_assessment.diseases %}
-                  {% for disease in plant_data.health_assessment.diseases %}
-                    <div class="card mb-3">
-                      <div class="card-header">Disease: {{ disease.name }}</div>
-                      <div class="card-body">
-                        <h5 class="card-title">Description:</h5>
-                        <p class="card-text">{{ disease.disease_details.description }}</p>
-                        <!-- <h5 class="card-title">Probability:</h5>
-                                  <p class="card-text">{{ disease.probability }}</p> -->
-                        <h5 class="card-title">Treatment:</h5>
-                        <p class="card-text">
-                          <strong>Chemical:</strong> {{
-                          disease.disease_details.treatment.chemical }}
-                        </p>
-                        <p class="card-text">
-                          <strong>Biological:</strong> {{
-                          disease.disease_details.treatment.biological }}
-                        </p>
-                        <a
-                          href="{{ disease.disease_details.url }}"
-                          class="btn btn-primary"
-                          >More info</a
-                        >
-                      </div>
-                    </div>
-                  {% endfor %}
-                {% else %}
-                  <div class="alert alert-info" role="alert">No diseases found.</div>
-                {% endif %}
+               {% if plant_data.health_assessment.diseases %}
+        {% for disease in plant_data.health_assessment.diseases %}
+        <div class="card mb-3">
+            <div class="card-header">
+                Disease: {{ disease.name }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Description:</h5>
+                <p class="card-text">{{ disease.disease_details.description }}</p>
+                <!-- <h5 class="card-title">Probability:</h5>
+                <p class="card-text">{{ disease.probability }}</p> -->
+                <h5 class="card-title">Treatment:</h5>
+                <p class="card-text"><strong>Chemical:</strong> {{ disease.disease_details.treatment.chemical }}</p>
+                <p class="card-text"><strong>Biological:</strong> {{ disease.disease_details.treatment.biological }}</p>
+                <a href="{{ disease.disease_details.url }}" class="btn btn-primary">More info</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            No diseases found.
+        </div>
+        {% endif %}
               </div>
             </div>
           {% else %}
