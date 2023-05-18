@@ -10,11 +10,11 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <p class="mb-0">
-                            <h2>Upload Crop Image for Health Check</h2>
+                            <h3>Upload crop image for health check</h3>
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form.as_p }}
-                                <button class="ms-5" type="submit">Check</button>
+                                <button type="submit">Check</button>
                             </form>
                         </p>
                     </div>
