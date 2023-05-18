@@ -81,7 +81,7 @@ def identify_plant(request):
             }
             headers = {
                 "Content-Type": "application/json",
-                "Api-Key": "LALHIKrgYvB3Cd8X794njY8yN85WqREWjiQCHdsL5aKrppMVbB",
+                "Api-Key": "JI9vGjTAhjFpBlnb2sr7CbxNrE6wtGc77u3K9j1vxmv9ZpGskr",
             }
             response = requests.post("https://api.plant.id/v2/health_assessment",
                                      json=params,
