@@ -6,12 +6,15 @@ from .forms import RegisterForm, LoginForm
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
-from .forms import UpdateUserForm, UpdateProfileForm
+from .forms import UpdateUserForm, UpdateProfileForm, PlantImageForm
 from .models import *
 from django.db.models import Count
 # import jwt
 # from django.conf import settings
 # from django.http import HttpResponse
+import base64
+import json
+import requests
 
 
 
@@ -59,9 +62,39 @@ def index(request):
     }
     return render(request, 'bootstrap/index.html', context)
 
+def encode_file(file):
+    file_data = file.read()  # read file data directly from the uploaded file object
+    return base64.b64encode(file_data).decode('utf-8')
 
-def Static(request):
-    return render(request, 'bootstrap/layout-static.html')
+def identify_plant(request):
+    if request.method == 'POST':
+        form = PlantImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            # More optional parameters: https://github.com/flowerchecker/Plant-id-API/wiki/Plant-Health-Assessment
+            params = {
+                "images": [encode_file(request.FILES['image'])],
+                "latitude": 49.1951239,
+                "longitude": 16.6077111,
+                "datetime": 1582830233,
+                # Modifiers docs: https://github.com/flowerchecker/Plant-id-API/wiki/Modifiers
+                "modifiers": ["crops_fast", "similar_images"],
+                "language": "en",
+                # Disease details docs: https://github.com/flowerchecker/Plant-id-API/wiki/Disease-details
+                "disease_details": ["cause", "common_names", "classification", "description", "treatment", "url"],
+            }
+            headers = {
+                "Content-Type": "application/json",
+                "Api-Key": "LALHIKrgYvB3Cd8X794njY8yN85WqREWjiQCHdsL5aKrppMVbB",
+            }
+            response = requests.post("https://api.plant.id/v2/health_assessment",
+                                     json=params,
+                                     headers=headers)
+
+            plant_data = response.json()
+            return render(request, 'bootstrap/plant_details.html', {'plant_data': plant_data})
+    else:
+        form = PlantImageForm()
+    return render(request, 'bootstrap/upload.html', {'form': form})
 
 def LigthNav(request):
     return render(request, 'bootstrap/layout-sidenav-light.html')

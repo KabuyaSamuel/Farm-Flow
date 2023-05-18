@@ -91,3 +91,6 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar', 'bio']
+
+class PlantImageForm(forms.Form):
+    image = forms.ImageField()
