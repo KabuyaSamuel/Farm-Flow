@@ -1,0 +1,25 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mt-4">UV Index</h2>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-calendar-day"></i> Time of Data Calculation
+                </h5>
+                <p class="card-text">{{ uvi_data.dt|date:"F d, Y H:i A" }}</p>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-sun"></i> UV Index
+                </h5>
+                <p class="card-text">{{ uvi_data.uvi }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

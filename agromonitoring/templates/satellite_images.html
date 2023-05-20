@@ -1,0 +1,34 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-4">Satellite Images and Zonal Statistics</h1>
+
+        <h2 class="mt-4">Satellite Images</h2>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-images"></i> True Color Image</h5>
+                <img src="{{ image_urls.truecolor }}" alt="True Color Image" class="img-fluid">
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-images"></i> NDVI Image</h5>
+                <img src="{{ image_urls.ndvi }}" alt="NDVI Image" class="img-fluid">
+            </div>
+        </div>
+
+        <!-- Add more cards for other image presets as needed -->
+
+        <h2 class="mt-4">Zonal Statistics</h2>
+        <div class="card mt-4 mb-4">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-chart-bar"></i> NDVI Statistics</h5>
+                <p class="card-text">Standard Deviation: {{ stats_urls.ndvi.std }}</p>
+                <p class="card-text">Mean: {{ stats_urls.ndvi.mean }}</p>
+                <!-- Add more zonal statistics as needed -->
+            </div>
+        </div>
+    </div>
+{% endblock content %}

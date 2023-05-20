@@ -1,0 +1,37 @@
+{% extends "bootstrap/base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="mt-4">Weather Forecast</h2>
+        
+        {% for forecast in forecast_data %}
+            <div class="card mt-4 mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-calendar-alt"></i> Date: {{ forecast.dt|date:"F d, Y H:i A" }}
+                    </h5>
+                    <p class="card-text">
+                        <i class="fas fa-thermometer-half"></i> Temperature: {{ forecast.main.temp|kelvin_to_celsius|floatformat:2  }} °C
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-cloud"></i> Weather: {{ forecast.weather.0.main }}
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-info-circle"></i> Description: {{ forecast.weather.0.description }}
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-cloud-sun"></i> Cloudiness: {{ forecast.clouds.all }}%
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-wind"></i> Wind Speed: {{ forecast.wind.speed }} m/s
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-location-arrow"></i> Wind Direction: {{ forecast.wind.deg }}°
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

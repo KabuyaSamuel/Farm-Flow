@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import *
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+
+from django.core.exceptions import ValidationError
 
 class RegisterForm(UserCreationForm):
     # fields we want to include and customize in our form
@@ -43,6 +46,13 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("Email already exists")
+        return email
+
 
 
 class LoginForm(AuthenticationForm):

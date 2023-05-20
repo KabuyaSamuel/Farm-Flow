@@ -27,6 +27,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('farmflow.urls')),
+    path('agromonitoring/', include('agromonitoring.urls')),
+    path('farmerdata/', include('farmerdata.urls')),
 
     path('login/', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='users/login.html',
                                            authentication_form=LoginForm), name='login'),

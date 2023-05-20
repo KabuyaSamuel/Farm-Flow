@@ -1,0 +1,8 @@
+Dear {{ user.username }},
+
+Thank you for submitting your farm data. Your farm named "{{ farm.location }}" has been added to our system and is awaiting approval.
+
+We'll notify you as soon as your farm has been reviewed and approved.
+
+Thanks,
+The Farm Share Kenya Team

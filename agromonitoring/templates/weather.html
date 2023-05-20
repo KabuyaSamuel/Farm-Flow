@@ -1,0 +1,112 @@
+{% extends "bootstrap/base.html" %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 mt-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2><i class="fas fa-cloud me-1"></i>Weather Information</h2> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-thermometer-half text-primary"></i> Temperature</h5>
+                    <p class="card-text">Current Temperature: {{ weather_data.main.temp|kelvin_to_celsius|floatformat:2  }} °C</p>
+                    <p class="card-text">Minimum Temperature: {{ weather_data.main.temp_min|kelvin_to_celsius|floatformat:2  }} °C</p>
+                    <p class="card-text">Maximum Temperature: {{ weather_data.main.temp_max|kelvin_to_celsius|floatformat:2 }} °C</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-tint text-primary"></i> Humidity</h5>
+                    <p class="card-text">Humidity: {{ weather_data.main.humidity }}%</p>
+                    <p class="card-text">Sea Level Pressure: {{ weather_data.main.sea_level }} hPa</p>
+                    <p class="card-text">Ground Level Pressure: {{ weather_data.main.grnd_level }} hPa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-cloud text-primary"></i> Description</h5>
+                    <p class="card-text">{{ weather_data.weather.0.description }}</p>
+                    <p class="card-text">Pressure: {{ weather_data.main.pressure }} hPa</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-location-arrow text-primary"></i> Coordinates</h5>
+                    <p class="card-text">Longitude: {{ weather_data.coord.lat }}</p>
+                    <p class="card-text">Latitude: {{ weather_data.coord.lon }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-wind text-primary"></i> Wind</h5>
+                    <p class="card-text">Wind Speed: {{ weather_data.wind.speed }} meter/sec</p>
+                    <p class="card-text">Wind Direction: {{ weather_data.wind.deg }} degrees (meteorological)
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-cloud text-primary"></i> Clouds</h5>
+                    <p class="card-text">Cloudiness: {{ weather_data.clouds.all }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-cloud-showers-heavy text-primary"></i> Rain</h5>
+                    <p class="card-text">Rain Volume for the Last 3 Hours: {{ weather_data.rain.3h }} mm</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-snowflake text-primary"></i> Snow</h5>
+                    <p class="card-text">Snow Volume for the Last 3 Hours: {{ weather_data.snow.3h }} mm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="far fa-clock text-primary"></i> Data Time</h5>
+                    <p class="card-text"  id="data-time">Time of Data Calculation: {{ weather_data.dt }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

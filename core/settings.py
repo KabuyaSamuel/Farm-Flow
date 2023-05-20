@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'social_django',
     'cloudinary',
     'phonenumber_field',
+    'agromonitoring',
+    'farmerdata',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

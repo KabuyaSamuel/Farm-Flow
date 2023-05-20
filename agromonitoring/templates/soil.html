@@ -1,0 +1,48 @@
+{% extends "bootstrap/base.html" %}
+{% load custom_filters %}
+
+{% block content %}
+    <div class="container">
+         <div class="row">
+        <div class="col-lg-12 mt-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-droplet-percent"></i>Soil Data Information</h2> 
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-clock"></i> Time of Data Calculation
+                </h5>
+                <p class="card-text">{{ soil_data.dt }}</p>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-thermometer-half"></i> Temperature (10cm depth)
+                </h5>
+                <p class="card-text">{{ soil_data.t10|kelvin_to_celsius|floatformat:2 }} °C</p>
+            </div>
+        </div>
+        <div class="card mt-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-tint"></i> Soil Moisture
+                </h5>
+                <p class="card-text">{{ soil_data.moisture }}</p>
+            </div>
+        </div>
+        <div class="card mt-4 mb-5">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-thermometer-three-quarters"></i> Surface Temperature
+                </h5>
+                <p class="card-text">{{ soil_data.t0|kelvin_to_celsius|floatformat:2 }} °C</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

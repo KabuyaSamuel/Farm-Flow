@@ -5,6 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 import uuid
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.db.models import Q
 
 
 # Create your models here.
@@ -46,13 +47,22 @@ class SoilTestResult(models.Model):
         ("Complete", "Complete"),
         ("Partial", "Partial"),
     ]
-    type = models.CharField(max_length=255, choices=TYPE_CHOICES, unique=True)
-    done = models.CharField(max_length=255, choices=RESPONSES, unique=True)
+    type = models.CharField(max_length=255, choices=TYPE_CHOICES)
+    done = models.CharField(max_length=255, choices=RESPONSES)
     reason = models.CharField(max_length=255, blank=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['type', 'done'], name='unique_test_result'),
+            models.CheckConstraint(
+                check=Q(done='Y') | ~Q(done='N') | ~Q(reason=''),
+                name='reason_required_for_no',
+            ),
+        ]
 
     def __str__(self):
         return f"{self.type} - {self.done}"
+    
     
 class InputUsed(models.Model):
     AMOUNT_CHOICES = [
@@ -66,9 +76,7 @@ class InputUsed(models.Model):
     type = models.CharField(max_length=255, choices=TYPE_CHOICES)
     value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    # quantity = models.PositiveSmallIntegerField(blank=True, null=True)
     amount = models.CharField(max_length=255, choices=AMOUNT_CHOICES)
-
     farms = models.ManyToManyField('Farm', through='FarmInputUsed')
 
     def __str__(self):
@@ -111,6 +119,12 @@ class Farm(models.Model):
     farming_type = models.ForeignKey(FarmingType, on_delete=models.CASCADE)
     input_used = models.ManyToManyField('InputUsed', through='FarmInputUsed')
     value_chains = models.ManyToManyField(ValueChainChoice, blank=True)
+    STATUS_CHOICES = [
+        ('Pending', 'Pending Approval'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected')
+    ]
+    approval_status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
 
     @classmethod
     def my_farms(cls, user_id):
@@ -120,9 +134,8 @@ class Farm(models.Model):
         value_chain_names = ', '.join([value_chain.name for value_chain in self.value_chains.all()])
         crop_names = [crop.name for crop in self.crops.all()]
         crop_str = crop_names[0] if len(crop_names) == 1 else ', '.join(crop_names)
-        return f"{self.owner.get_full_name()}'s farm ({value_chain_names}): {crop_str}"
+        return f"{self.owner.get_full_name()}'s farm ({value_chain_names}) growing {crop_str} in {self.location}"
 
-    
 class Profile(models.Model):
     GENDER_CHOICES =[
         ('Male', 'Male'),
@@ -139,22 +152,24 @@ class Profile(models.Model):
     phone_number = PhoneNumberField(unique=True, null=True, blank=True)
     plot_size = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, default=0)
     farm = models.ForeignKey(Farm, on_delete=models.CASCADE, null=True)
-    
-    def __str__(self):
-        return f'{self.user.username} Profile'
-    
+      
     def create_profile(self):
         self.save()
         
     def update_profile(self, new_bio):
         self.bio = new_bio
         self.save()
+    
+    def save(self, *args, **kwargs):
+        self.name = f"{self.user.first_name} {self.user.last_name}"  # set the name as the user's first and last name
+        self.email = self.user.email
+        super().save(*args, **kwargs)  # call the original save method
 
     def __str__(self):
         return f"{self.user.username} ({self.producer_group}) Profile"
 
 class Crop(models.Model):
-    name = models.CharField(max_length=55,)
+    name = models.CharField(max_length=55,unique=True)
     description = models.CharField(max_length=255)
     value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
 
@@ -207,7 +222,7 @@ class Produce(models.Model):
     farmer = models.ForeignKey(Profile, on_delete=models.CASCADE)
     type = models.CharField(max_length=255)
     quantity = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    grade = models.CharField(max_length=255, choices=GRADE_CHOICES, unique=True)
+    grade = models.CharField(max_length=255, choices=GRADE_CHOICES)
     production_date = models.DateField()
     value_chain = models.ForeignKey(ValueChainChoice, on_delete=models.CASCADE)
     # Add a field to track the status of the produce (e.g., harvested, in transit, at the market, sold).
