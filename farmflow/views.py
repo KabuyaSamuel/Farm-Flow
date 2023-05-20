@@ -12,6 +12,7 @@ from django.db.models import Count
 import base64
 import json
 import requests
+from decouple import config
 
 
 
@@ -25,14 +26,16 @@ def index(request):
     crop_counts = []
     value_chain_count = 0
     produce_count = 0
+    pending_approval_count = 0
     
     if farmer := user.farmer.first():
-        farms = Farm.objects.filter(owner=user).prefetch_related('crops').all()
+        farms = Farm.objects.filter(owner=user, approval_status='Approved').prefetch_related('crops').all()
         crops = Crop.objects.filter(id__in=[crop.id for farm in farms for crop in farm.crops.all()]).distinct()
         production_stages = CropProductionStage.objects.filter(farm__in=farms).order_by('-planted_date')
         produce = Produce.objects.filter(farmer=user.profile)
         tags = Tag.objects.filter(produce__in=produce)
-        farm_count = farms.count()
+        farm_count = Farm.objects.filter(owner=user, approval_status='Approved').count()
+        pending_approval_count = Farm.objects.filter(owner=user, approval_status='Pending').count()
         crop_counts = [farm.crops.count() for farm in farms]
         total_crop_count = sum(crop_counts)
         value_chain_count = ValueChainChoice.objects.filter(farm__owner=request.user).distinct().count()
@@ -56,6 +59,7 @@ def index(request):
         'total_crop_count': total_crop_count,
         'value_chain_count': value_chain_count,
         'produce_count': produce_count,
+        'pending_approval_count': pending_approval_count,
     }
     return render(request, 'bootstrap/index.html', context)
 
@@ -81,7 +85,7 @@ def identify_plant(request):
             }
             headers = {
                 "Content-Type": "application/json",
-                "Api-Key": "JI9vGjTAhjFpBlnb2sr7CbxNrE6wtGc77u3K9j1vxmv9ZpGskr",
+                "Api-Key": config('CROP_API'),
             }
             response = requests.post("https://api.plant.id/v2/health_assessment",
                                      json=params,

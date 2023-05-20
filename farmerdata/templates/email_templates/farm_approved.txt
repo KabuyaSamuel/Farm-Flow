@@ -1,0 +1,8 @@
+Hello {{ user.username }},
+
+We are pleased to inform you that your farm, located at "{{ farm.location }}", has been approved.
+
+Thank you for your patience and congratulations!
+
+Best regards,
+The Farm Flow Tech Team

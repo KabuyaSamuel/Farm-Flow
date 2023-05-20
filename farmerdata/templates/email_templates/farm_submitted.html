@@ -1,0 +1,14 @@
+{% autoescape off %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your farm has been submitted</title>
+</head>
+<body>
+    <h2>Dear {{ user.username }},</h2>
+    <p>Thank you for submitting your farm data. Your farm in <strong>"{{ farm.location }}"</strong> has been added to our system and is awaiting approval.</p>
+    <p>We'll notify you as soon as your farm has been reviewed and approved.</p>
+    <p>Thanks,<br>The Farm Share Kenya Team</p>
+</body>
+</html>
+{% endautoescape %}

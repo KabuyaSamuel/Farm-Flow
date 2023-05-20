@@ -50,13 +50,14 @@
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="{% url 'identify-plant' %}">Crop Health Checker</a>
-                                <a class="nav-link" href="{% url 'light-nav' %}">Light Sidenav</a>
+                                <a class="nav-link" href="{% url 'get-weather' %}">Current Weather</a>
+                                <a class="nav-link" href="{% url 'weather-forecast' %}">Weather Forecast</a>
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
                             aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Pages
+                            Agrotech
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
@@ -65,18 +66,19 @@
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                     data-bs-target="#pagesCollapseAuth" aria-expanded="false"
                                     aria-controls="pagesCollapseAuth">
-                                    Authentication
+                                    Agromonitoring
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
                                 <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
                                     data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                                        <a class="nav-link" href="{% url 'users-register' %}">Register</a>
-                                        <a class="nav-link" href="{% url 'password_reset' %}">Forgot Password</a>
+                                        <a class="nav-link" href="{% url 'soil-data' %}">Soil Data</a>
+                                        <a class="nav-link" href="{% url 'satellite-imagery' %}">Satellite</a>
+                                        <a class="nav-link" href="{% url 'satellite-images' %}">Satellite Images</a>
+                                        <a class="nav-link" href="{% url 'uvi-data' %}">UV Index</a>
                                     </nav>
                                 </div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                <!-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                     data-bs-target="#pagesCollapseError" aria-expanded="false"
                                     aria-controls="pagesCollapseError">
                                     Error
@@ -89,7 +91,7 @@
                                         <a class="nav-link" href="{% url '404' %}">404 Page</a>
                                         <a class="nav-link" href="{% url '500' %}">500 Page</a>
                                     </nav>
-                                </div>
+                                </div> -->
                             </nav>
                         </div>
                         <div class="sb-sidenav-menu-heading">Addons</div>
