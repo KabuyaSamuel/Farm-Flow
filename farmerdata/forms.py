@@ -27,5 +27,5 @@ class CropForm(forms.ModelForm):
 class FarmForm(forms.ModelForm):
     class Meta:
         model = Farm
-        fields = ['location', 'crops', 'length', 'width','soil_test', 'water_source', 'farming_type', 'value_chains']
+        fields = ['location', 'crops', 'length', 'width','soil_test', 'water_source', 'farming_type']
 
