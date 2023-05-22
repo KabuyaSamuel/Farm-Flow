@@ -55,7 +55,7 @@ def create_farm(request):
             send_mail(
                 'Your farm data has been submitted',
                 msg_plain,
-                'farmflowtech@example.com',
+                'farmflowtech@gmail.com',
                 [request.user.email],
                 html_message=msg_html,
             )
