@@ -196,13 +196,24 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
 
 # Email configurations remember to install python-decouple
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = config('EMAIL_USE_TLS')
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-# SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+# EMAIL_HOST = config('EMAIL_HOST')
+# EMAIL_PORT = config('EMAIL_PORT')
+# EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+#Sengrid Configurations
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+
+
+# Toggle sandbox mode (when running in DEBUG mode)
+SENDGRID_SANDBOX_MODE_IN_DEBUG=False
+
+# echo to stdout or any other file-like object that is passed to the backend via the stream kwarg.
+# SENDGRID_ECHO_TO_STDOUT=True
+
 
 cloudinary.config(
     cloud_name=config('CD_NAME'),

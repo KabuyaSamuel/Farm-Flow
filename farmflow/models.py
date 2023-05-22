@@ -134,7 +134,7 @@ class Farm(models.Model):
         value_chain_names = ', '.join([value_chain.name for value_chain in self.value_chains.all()])
         crop_names = [crop.name for crop in self.crops.all()]
         crop_str = crop_names[0] if len(crop_names) == 1 else ', '.join(crop_names)
-        return f"{self.owner.get_full_name()}'s farm ({value_chain_names}) growing {crop_str} in {self.location}"
+        return f"{self.owner.get_full_name()}'s farm ({value_chain_names}) growing {crop_str} in {self.location} - {self.approval_status}"
 
 class Profile(models.Model):
     GENDER_CHOICES =[
