@@ -55,7 +55,7 @@ class RegisterFormTest(TestCase):
         form = RegisterForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('password2', form.errors)
-        
+
     def test_required_fields(self):
         form_data = {}
         form = RegisterForm(data=form_data)
@@ -82,3 +82,20 @@ class RegisterFormTest(TestCase):
         form = RegisterForm()
         self.assertEqual(form.fields['first_name'].widget.attrs['class'], 'form-control')
         self.assertEqual(form.fields['last_name'].widget.attrs['placeholder'], 'Last Name')
+
+class LoginFormTest(TestCase):
+    def test_authentication(self):
+        # Create a user for authentication testing
+        user = User.objects.create_user(username='johndoe', password='mypassword123')
+
+        form_data = {
+            'username': 'johndoe',
+            'password': 'mypassword123',
+            'remember_me': False
+        }
+        form = LoginForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+        authenticated_user = form.get_user()
+        self.assertEqual(authenticated_user, user)
+   
