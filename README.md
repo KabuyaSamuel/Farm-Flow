@@ -134,6 +134,7 @@ index
 3. Railway - Deployment/Hosting services.
 4. WordPress - Frontend of our project
 5. WooCommerce - Powering the shop
+6. HTML, CSS, JavaScript - Project's interactivity
 
 ## Contributing
 
