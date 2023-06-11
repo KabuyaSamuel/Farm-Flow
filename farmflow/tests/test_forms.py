@@ -42,3 +42,43 @@ class RegisterFormTest(TestCase):
         form = RegisterForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('password2', form.errors)
+    
+    def test_password_min_length(self):
+        form_data = {
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'username': 'johndoe',
+            'email': 'johndoe@example.com',
+            'password1': 'pass',  # Less than minimum length
+            'password2': 'pass'   # Less than minimum length
+        }
+        form = RegisterForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('password2', form.errors)
+        
+    def test_required_fields(self):
+        form_data = {}
+        form = RegisterForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('first_name', form.errors)
+        self.assertIn('last_name', form.errors)
+        self.assertIn('username', form.errors)
+        self.assertIn('email', form.errors)
+        self.assertIn('password1', form.errors)
+        self.assertIn('password2', form.errors)
+
+    def test_required_fields(self):
+        form_data = {}
+        form = RegisterForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('first_name', form.errors)
+        self.assertIn('last_name', form.errors)
+        self.assertIn('username', form.errors)
+        self.assertIn('email', form.errors)
+        self.assertIn('password1', form.errors)
+        self.assertIn('password2', form.errors)
+
+    def test_field_attributes(self):
+        form = RegisterForm()
+        self.assertEqual(form.fields['first_name'].widget.attrs['class'], 'form-control')
+        self.assertEqual(form.fields['last_name'].widget.attrs['placeholder'], 'Last Name')
