@@ -29,3 +29,16 @@ class RegisterFormTest(TestCase):
         form = RegisterForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('email', form.errors)
+
+    def test_password_mismatch(self):
+        form_data = {
+            'first_name': 'John',
+            'last_name': 'Doe',
+            'username': 'johndoe',
+            'email': 'johndoe@example.com',
+            'password1': 'mypassword123',
+            'password2': 'differentpassword'  # Passwords don't match
+        }
+        form = RegisterForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('password2', form.errors)
