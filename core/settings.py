@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'agromonitoring',
     'farmerdata',
     'widget_tweaks',
+    'whatsapp',
+    'ussd'
 ]
 
 MIDDLEWARE = [
