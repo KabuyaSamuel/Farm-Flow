@@ -88,3 +88,22 @@ class InputUsedModelTest(TestCase):
             str(input_used),
             "Insecticide (litres of Pesticides)"
         )
+class FarmingTypeModelTest(TestCase):
+    def test_farming_type_creation(self):
+        farming_type = FarmingType.objects.create(type="Outdoor")
+        self.assertEqual(str(farming_type), "Outdoor")
+
+    def test_farming_type_unique_constraint(self):
+        FarmingType.objects.create(type="Outdoor")
+        with self.assertRaises(IntegrityError):
+            FarmingType.objects.create(type="Outdoor")
+
+class WaterSourceModelTest(TestCase):
+    def test_water_source_creation(self):
+        water_source = WaterSource.objects.create(type="Borehole")
+        self.assertEqual(str(water_source), "Borehole")
+
+    def test_water_source_unique_constraint(self):
+        WaterSource.objects.create(type="Borehole")
+        with self.assertRaises(IntegrityError):
+            WaterSource.objects.create(type="Borehole")
