@@ -142,13 +142,13 @@ Want to contribute? Great!
 
 To fix a bug or enhance an existing module, follow these steps:
 
-Fork the repo
-Create a new branch (git checkout -b improve-feature)
-Make the appropriate changes in the files
-Add changes to reflect the changes made
-Commit your changes (git commit -am 'Improve feature')
-Push to the branch (git push origin improve-feature)
-Create a Pull Request
+1. Fork the repo
+2. Create a new branch (git checkout -b improve-feature)
+3. Make the appropriate changes in the files
+4. Add changes to reflect the changes made
+5. Commit your changes (git commit -am 'Improve feature')
+6. Push to the branch (git push origin improve-feature)
+8. Create a Pull Request
 
 Known Bugs
 If you find a bug (the website couldn't handle the query and / or gave undesired results), kindly open an issue here https://github.com/KabuyaSamuel/Farm-Flow/issues/new  by including your search query and the expected result.
