@@ -4,8 +4,8 @@ from django.contrib import admin, messages
 from .models import Crop
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-#from twilio.rest import Client
-#from twilio.base.exceptions import TwilioRestException
+from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
 from decouple import config
 from django.forms import ModelForm
 
@@ -47,6 +47,22 @@ class FarmAdmin(admin.ModelAdmin):
             )
 
             # Twilio SMS sending
+            if obj.owner.profile.phone_number:
+                try:
+                    account_sid = config('TWILIO_ACCOUNT_SID')
+                    auth_token = config('TWILIO_AUTH_TOKEN')
+                    client = Client(account_sid, auth_token)
+
+                    sms_message = f'Hello {obj.owner.username}, your farm has been approved.'
+                    client.messages.create(
+                        body=sms_message,
+                        from_=config('TWILIO_PHONE_NUMBER'),  # your Twilio number
+                        to=str(obj.owner.profile.phone_number),  # user's phone number in profile
+                    )
+                except TwilioRestException as e:
+                    print(f"Twilio Error: {e}")
+            else:
+                messages.info(request, "To send SMS notifications, please add user phone number to profile.")
             
 
         super().save_model(request, obj, form, change)
