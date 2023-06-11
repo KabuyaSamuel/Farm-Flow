@@ -9,7 +9,7 @@ from ..models import (
     FarmingType, WaterSource, Farm, Profile, Crop, FarmInputUsed,
     CropProductionStage, Produce, Tag
 )
-
+from faker import Faker
 
 class ClusterModelTest(TestCase):
     def test_cluster_creation(self):
@@ -293,9 +293,7 @@ class CropProductionStageModelTest(TestCase):
         self.assertEqual(
             context.exception.message_dict,
             {'__all__': ['Harvesting date cannot be greater than harvested date']}
-        )
-
-    
+        )    
 
     def test_invalid_crop_production_stage_planted_date(self):
         self.crop_production_stage.planted_date = date(2023, 2, 1)
@@ -325,5 +323,89 @@ class CropProductionStageModelTest(TestCase):
         )
 
 
-  
+# class ProduceModelTest(TestCase):
+#     def setUp(self):
+#         fake = Faker()
+#         self.user = User.objects.create(username='testuser')
+#         self.profiles = []
+#         self.value_chain = ValueChainChoice.objects.create(name='Poultry')
+        
+#         # Generate unique email addresses for the profiles
+#         for _ in range(2):
+#             email = fake.unique.email()  # Use unique method to generate unique email addresses
+#             profile = Profile.objects.create(
+#                 user=self.user,
+#                 producer_group=None,
+#                 gender='Male',
+#                 email=email
+#             )
+#             self.profiles.append(profile)
+        
+#     def test_valid_produce(self):
+#         produce = Produce.objects.create(
+#             farmer=self.profiles[0],
+#             type='Tomatoes',
+#             quantity=10.5,
+#             grade='Grade A',
+#             production_date=date(2023, 6, 1),
+#             value_chain=self.value_chain,
+#             status='Harvested',
+#             location='Farmers Market'
+#         )
+#         expected_str = "Tomatoes - 10.5kg of Grade A by (testuser) on 2023-06-01 currently Harvested"
+#         self.assertEqual(str(produce), expected_str)
 
+#     def test_invalid_produce_quantity_negative(self):
+#         with self.assertRaises(ValidationError) as context:
+#             produce = Produce(
+#                 farmer=self.profiles[0],
+#                 type='Tomatoes',
+#                 quantity=-5,
+#                 grade='Grade B',
+#                 production_date=date(2023, 6, 1),
+#                 value_chain=self.value_chain,
+#                 status='Harvested',
+#                 location='Farmers Market'
+#             )
+#             produce.full_clean()
+
+#         self.assertEqual(
+#             context.exception.message_dict,
+#             {'quantity': ['Ensure this value is greater than or equal to 0.']}
+#         )
+
+
+# class TagModelTest(TestCase):
+#     def setUp(self):
+#         fake = Faker()
+        
+#         # Create a test farmer profile with a unique email
+#         self.user = User.objects.create(username='testuser')
+#         email = fake.email()
+#         self.profile = Profile.objects.create(user=self.user, producer_group=None, gender='Male', email=email)
+        
+#         # Create a test produce
+#         self.produce = Produce.objects.create(
+#             farmer=self.profile,
+#             type='Tomatoes',
+#             quantity=10.5,
+#             grade='Grade A',
+#             production_date=date(2023, 6, 1),
+#             value_chain=None,
+#             status='Harvested',
+#             location='Farmers Market'
+#         )
+        
+#     def test_tag_creation(self):
+#         tag = Tag.objects.create(farmer=self.profile, produce=self.produce, status='Harvested')
+        
+#         self.assertIsNotNone(tag.tag_id)  # Verify that a tag_id is assigned
+#         self.assertEqual(tag.farmer, self.profile)  # Verify farmer association
+#         self.assertEqual(tag.produce, self.produce)  # Verify produce association
+#         self.assertEqual(tag.status, 'Harvested')  # Verify status assignment
+        
+#     def test_tag_str_representation(self):
+#         tag = Tag.objects.create(farmer=self.profile, produce=self.produce, status='Harvested')
+        
+#         expected_str = f"Tag #{tag.tag_id} (Tomatoes from testuser)"
+#         self.assertEqual(str(tag), expected_str)
