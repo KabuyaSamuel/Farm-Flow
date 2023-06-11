@@ -99,3 +99,40 @@ class LoginFormTest(TestCase):
         authenticated_user = form.get_user()
         self.assertEqual(authenticated_user, user)
    
+class UpdateUserFormTest(TestCase):
+    def test_form_valid(self):
+        user = User.objects.create(username='johndoe', email='johndoe@example.com')
+        form_data = {
+            'username': 'newusername',
+            'email': 'newemail@example.com',
+        }
+        form = UpdateUserForm(data=form_data, instance=user)
+        self.assertTrue(form.is_valid())
+
+    def test_form_invalid(self):
+        user = User.objects.create(username='johndoe', email='johndoe@example.com')
+        form_data = {
+            'username': '',  # Invalid: Empty value
+            'email': 'invalidemail',  # Invalid: Invalid email format
+        }
+        form = UpdateUserForm(data=form_data, instance=user)
+        self.assertFalse(form.is_valid())
+        self.assertIn('username', form.errors)
+        self.assertIn('email', form.errors)
+
+    def test_field_attributes(self):
+        form = UpdateUserForm()
+        self.assertEqual(form.fields['username'].widget.attrs['class'], 'form-control')
+        self.assertEqual(form.fields['email'].widget.attrs['class'], 'form-control')
+
+    def test_save_form(self):
+        user = User.objects.create(username='johndoe', email='johndoe@example.com')
+        form_data = {
+            'username': 'newusername',
+            'email': 'newemail@example.com',
+        }
+        form = UpdateUserForm(data=form_data, instance=user)
+        self.assertTrue(form.is_valid())
+        updated_user = form.save()
+        self.assertEqual(updated_user.username, 'newusername')
+        self.assertEqual(updated_user.email, 'newemail@example.com')
