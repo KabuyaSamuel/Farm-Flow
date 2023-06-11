@@ -29,6 +29,8 @@ urlpatterns = [
     path('', include('farmflow.urls')),
     path('agromonitoring/', include('agromonitoring.urls')),
     path('farmerdata/', include('farmerdata.urls')),
+    path('', include('whatsapp.urls')),
+    path('', include('ussd.urls')),
 
     path('login/', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='users/login.html',
                                            authentication_form=LoginForm), name='login'),
