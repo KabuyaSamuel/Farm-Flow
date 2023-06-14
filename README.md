@@ -116,6 +116,7 @@ Weather information and forecasts specific to the farm can be accessed under the
 12. Users have access to soil data, satellite tracking, satellite images of their farms, and the UV index under the "Agro Monitoring" in the "Agrotech" menu.
 13. Farm trends can be visualized through various charts such as graphs, bar charts, and pie charts, accessible under the "Charts" menu.
 14. Users can view crop production tables under the "Tables" menu.
+15. Users can chat live with the admin or chat on WhatsApp.
 16. Users have the option to log out of the system.
 17. Users can visit the online shop to view and manage their listed produce for sale
 
