@@ -2,6 +2,9 @@
 
 Farm Flow is a web-based platform that aims to connect farmers with buyers, streamline the supply chain process, and empower farmers to sell their produce directly to consumers. 
 
+Live link to the project
+[Farm Share](https://farmshare.co.ke/)
+
 ## Table of Contents
 
 - [Project Overview](#project-overview)
@@ -15,6 +18,10 @@ Farm Flow is a web-based platform that aims to connect farmers with buyers, stre
 ## Project Overview
 
 Farm Flow is a web-based platform designed to address the challenges faced by farmers in accessing markets, managing their farms efficiently, and maximizing their profits. It aims to connect farmers with buyers, streamline the supply chain process, and empower farmers to sell their produce directly to consumers. By providing a user-friendly platform that enables efficient farm management and market access, Farm Flow seeks to expand farmers' market reach, improve farm management practices, and increase their profits. The success of Farm Flow will be measured by the number of farmers successfully connected with buyers and the adoption of planning, tracking, and data-driven decision-making tools leading to improved crop yields and farm profitability.
+
+
+Live link to the project
+[Farm Share](https://farmshare.co.ke/)
 
 ## Installation
 
@@ -151,9 +158,12 @@ To fix a bug or enhance an existing module, follow these steps:
 8. Create a Pull Request
 
 Known Bugs
-If you find a bug (the website couldn't handle the query and / or gave undesired results), kindly open an issue here https://github.com/KabuyaSamuel/Farm-Flow/issues/new  by including your search query and the expected result.
+If you find a bug (the website couldn't handle the query and / or gave undesired results), kindly [Open Issue](https://github.com/KabuyaSamuel/Farm-Flow/issues/new)   by including your search query and the expected result.
 
-If you'd like to request a new function, feel free to do so by opening an issue here https://github.com/KabuyaSamuel/Farm-Flow/issues/new. Please include sample queries and their corresponding results.
+If you'd like to request a new function, feel free to do so by going to [New Function](https://github.com/KabuyaSamuel/Farm-Flow/issues/new). Please include sample queries and their corresponding results.
+
+Please provide feedback on our project at [Padlet](https://padlet.com/samuelkabuya/farmflow-feedback-padlet-g95u07gsjwyig7sd). Your thoughts and suggestions are valuable to us. FarmFlow Team!
+
 
 ## License
 
