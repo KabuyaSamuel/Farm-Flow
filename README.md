@@ -13,6 +13,7 @@ Live link to the project
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
+- [Credits](#credits)
 - [License](#license)
 
 ## Project Overview
@@ -164,6 +165,18 @@ If you find a bug (the website couldn't handle the query and / or gave undesired
 If you'd like to request a new function, feel free to do so by going to [New Function](https://github.com/KabuyaSamuel/Farm-Flow/issues/new). Please include sample queries and their corresponding results.
 
 Please provide feedback on our project at [Padlet](https://padlet.com/samuelkabuya/farmflow-feedback-padlet-g95u07gsjwyig7sd). Your thoughts and suggestions are valuable to us. FarmFlow Team!
+
+## Credits
+
+The following APIs were useful to the success of our project:
+
+- Plant ID API - https://plant.id/ 
+- Agro-Monitoring API - https://agromonitoring.com/ 
+- CMS Dashboard-www.vcita.com 
+- Communications API for SMS - www.twilio.com 
+- Email Delivery API - https://sendgrid.com/ 
+- Live chat - https://www.tawk.to/ 
+- WhatsApp Widget - https://elfsight.com/ 
 
 
 ## License
