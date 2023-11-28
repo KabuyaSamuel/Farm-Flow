@@ -13,6 +13,7 @@ Live link to the project
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
+- [Credits](#credits)
 - [License](#license)
 
 ## Project Overview
@@ -116,6 +117,7 @@ Weather information and forecasts specific to the farm can be accessed under the
 12. Users have access to soil data, satellite tracking, satellite images of their farms, and the UV index under the "Agro Monitoring" in the "Agrotech" menu.
 13. Farm trends can be visualized through various charts such as graphs, bar charts, and pie charts, accessible under the "Charts" menu.
 14. Users can view crop production tables under the "Tables" menu.
+15. Users can chat live with the admin or chat on WhatsApp.
 16. Users have the option to log out of the system.
 17. Users can visit the online shop to view and manage their listed produce for sale
 
@@ -163,6 +165,18 @@ If you find a bug (the website couldn't handle the query and / or gave undesired
 If you'd like to request a new function, feel free to do so by going to [New Function](https://github.com/KabuyaSamuel/Farm-Flow/issues/new). Please include sample queries and their corresponding results.
 
 Please provide feedback on our project at [Padlet](https://padlet.com/samuelkabuya/farmflow-feedback-padlet-g95u07gsjwyig7sd). Your thoughts and suggestions are valuable to us. FarmFlow Team!
+
+## Credits
+
+The following APIs were useful to the success of our project:
+
+- Plant ID API - https://plant.id/ 
+- Agro-Monitoring API - https://agromonitoring.com/ 
+- CMS Dashboard-www.vcita.com 
+- Communications API for SMS - www.twilio.com 
+- Email Delivery API - https://sendgrid.com/ 
+- Live chat - https://www.tawk.to/ 
+- WhatsApp Widget - https://elfsight.com/ 
 
 
 ## License
